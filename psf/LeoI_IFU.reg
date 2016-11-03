@@ -1,0 +1,541 @@
+# Region file format: DS9 version 4.1
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+fk5
+line(152.05743,12.431951,152.13316,12.432199) # line=0 0
+line(152.13316,12.432199,152.13291,12.50638) # line=0 0
+line(152.13291,12.50638,152.05717,12.506132) # line=0 0
+line(152.05717,12.506132,152.05743,12.431951) # line=0 0
+circle(152.09135,12.324306,1.6") # color=yellow width=4
+# text(152.09135,12.324306) text={20}
+circle(152.09286,12.32428,1.6") # color=red
+# text(152.09286,12.32428) text={19}
+circle(152.09445,12.324309,1.6") # color=red
+# text(152.09445,12.324309) text={18}
+circle(152.09593,12.32429,1.6") # color=red
+# text(152.09593,12.32429) text={17}
+circle(152.09744,12.324285,1.6") # color=red
+# text(152.09744,12.324285) text={16}
+circle(152.09892,12.324266,1.6") # color=yellow width=4
+# text(152.09892,12.324266) text={15}
+circle(152.10045,12.324275,1.6") # color=yellow width=4
+# text(152.10045,12.324275) text={14}
+circle(152.10197,12.324283,1.6") # color=red
+# text(152.10197,12.324283) text={13}
+circle(152.10346,12.324285,1.6") # color=red
+# text(152.10346,12.324285) text={12}
+circle(152.10497,12.32428,1.6") # color=yellow width=4
+# text(152.10497,12.32428) text={11}
+circle(152.10651,12.324288,1.6") # color=yellow width=4
+# text(152.10651,12.324288) text={10}
+circle(152.10801,12.324262,1.6") # color=yellow width=4
+# text(152.10801,12.324262) text={9}
+circle(152.10951,12.324278,1.6") # color=yellow width=4
+# text(152.10951,12.324278) text={8}
+circle(152.11098,12.324279,1.6") # color=yellow width=4
+# text(152.11098,12.324279) text={7}
+circle(152.11253,12.324288,1.6") # color=yellow width=4
+# text(152.11253,12.324288) text={6}
+circle(152.11405,12.324317,1.6") # color=yellow width=4
+# text(152.11405,12.324317) text={5}
+circle(152.11557,12.324327,1.6") # color=red
+# text(152.11557,12.324327) text={4}
+circle(152.11703,12.324294,1.6") # color=red
+# text(152.11703,12.324294) text={3}
+circle(152.11859,12.324323,1.6") # color=yellow width=4
+# text(152.11859,12.324323) text={2}
+circle(152.12007,12.324331,1.6") # color=red
+# text(152.12007,12.324331) text={1}
+circle(152.12162,12.324333,1.6") # color=red
+# text(152.12162,12.324333) text={0}
+circle(152.09216,12.323026,1.6") # color=yellow width=4
+# text(152.09216,12.323026) text={40}
+circle(152.09365,12.323097,1.6") # color=red
+# text(152.09365,12.323097) text={39}
+circle(152.09517,12.323043,1.6") # color=yellow width=4
+# text(152.09517,12.323043) text={38}
+circle(152.09667,12.323017,1.6") # color=yellow width=4
+# text(152.09667,12.323017) text={37}
+circle(152.09816,12.323019,1.6") # color=red
+# text(152.09816,12.323019) text={36}
+circle(152.0997,12.323041,1.6") # color=yellow width=4
+# text(152.0997,12.323041) text={35}
+circle(152.10116,12.323001,1.6") # color=yellow width=4
+# text(152.10116,12.323001) text={34}
+circle(152.10272,12.322996,1.6") # color=red
+# text(152.10272,12.322996) text={33}
+circle(152.10423,12.323018,1.6") # color=yellow width=4
+# text(152.10423,12.323018) text={32}
+circle(152.10573,12.323034,1.6") # color=red
+# text(152.10573,12.323034) text={31}
+circle(152.10727,12.323008,1.6") # color=red
+# text(152.10727,12.323008) text={30}
+circle(152.10875,12.322982,1.6") # color=yellow width=4
+# text(152.10875,12.322982) text={29}
+circle(152.11026,12.323011,1.6") # color=yellow width=4
+# text(152.11026,12.323011) text={28}
+circle(152.11177,12.323013,1.6") # color=yellow width=4
+# text(152.11177,12.323013) text={27}
+circle(152.11326,12.323007,1.6") # color=yellow width=4
+# text(152.11326,12.323007) text={26}
+circle(152.11479,12.323045,1.6") # color=red
+# text(152.11479,12.323045) text={25}
+circle(152.11632,12.32306,1.6") # color=red
+# text(152.11632,12.32306) text={24}
+circle(152.1178,12.323069,1.6") # color=yellow width=4
+# text(152.1178,12.323069) text={23}
+circle(152.11932,12.323049,1.6") # color=yellow width=4
+# text(152.11932,12.323049) text={22}
+circle(152.12084,12.323058,1.6") # color=red
+# text(152.12084,12.323058) text={21}
+circle(152.09137,12.321716,1.6") # color=yellow width=4
+# text(152.09137,12.321716) text={61}
+circle(152.09292,12.321752,1.6") # color=yellow width=4
+# text(152.09292,12.321752) text={60}
+circle(152.09441,12.321747,1.6") # color=yellow width=4
+# text(152.09441,12.321747) text={59}
+circle(152.09591,12.321735,1.6") # color=yellow width=4
+# text(152.09591,12.321735) text={58}
+circle(152.09745,12.321723,1.6") # color=yellow width=4
+# text(152.09745,12.321723) text={57}
+circle(152.09894,12.321752,1.6") # color=red
+# text(152.09894,12.321752) text={56}
+circle(152.10047,12.321726,1.6") # color=yellow width=4
+# text(152.10047,12.321726) text={55}
+circle(152.102,12.321742,1.6") # color=yellow width=4
+# text(152.102,12.321742) text={54}
+circle(152.10347,12.321736,1.6") # color=yellow width=4
+# text(152.10347,12.321736) text={53}
+circle(152.10501,12.321724,1.6") # color=red
+# text(152.10501,12.321724) text={52}
+circle(152.10648,12.321746,1.6") # color=red
+# text(152.10648,12.321746) text={51}
+circle(152.108,12.321748,1.6") # color=red
+# text(152.108,12.321748) text={50}
+circle(152.10952,12.321743,1.6") # color=red
+# text(152.10952,12.321743) text={49}
+circle(152.11105,12.321779,1.6") # color=red
+# text(152.11105,12.321779) text={48}
+circle(152.11253,12.321725,1.6") # color=red
+# text(152.11253,12.321725) text={47}
+circle(152.11406,12.321734,1.6") # color=red
+# text(152.11406,12.321734) text={46}
+circle(152.11556,12.321785,1.6") # color=red
+# text(152.11556,12.321785) text={45}
+circle(152.11708,12.321787,1.6") # color=red
+# text(152.11708,12.321787) text={44}
+circle(152.11858,12.321781,1.6") # color=yellow width=4
+# text(152.11858,12.321781) text={43}
+circle(152.12007,12.321776,1.6") # color=yellow width=4
+# text(152.12007,12.321776) text={42}
+circle(152.1216,12.321805,1.6") # color=red
+# text(152.1216,12.321805) text={41}
+circle(152.09213,12.320421,1.6") # color=yellow width=4
+# text(152.09213,12.320421) text={81}
+circle(152.09365,12.320485,1.6") # color=yellow width=4
+# text(152.09365,12.320485) text={80}
+circle(152.09515,12.320453,1.6") # color=yellow width=4
+# text(152.09515,12.320453) text={79}
+circle(152.09668,12.320434,1.6") # color=yellow width=4
+# text(152.09668,12.320434) text={78}
+circle(152.09815,12.32047,1.6") # color=red
+# text(152.09815,12.32047) text={77}
+circle(152.0997,12.320499,1.6") # color=red
+# text(152.0997,12.320499) text={76}
+circle(152.10118,12.320473,1.6") # color=yellow width=4
+# text(152.10118,12.320473) text={75}
+circle(152.1027,12.320454,1.6") # color=yellow width=4
+# text(152.1027,12.320454) text={74}
+circle(152.10424,12.320456,1.6") # color=red
+# text(152.10424,12.320456) text={73}
+circle(152.10573,12.320457,1.6") # color=red
+# text(152.10573,12.320457) text={72}
+circle(152.10726,12.320445,1.6") # color=yellow width=4
+# text(152.10726,12.320445) text={71}
+circle(152.10875,12.320475,1.6") # color=red
+# text(152.10875,12.320475) text={70}
+circle(152.11026,12.32049,1.6") # color=yellow width=4
+# text(152.11026,12.32049) text={69}
+circle(152.11182,12.320485,1.6") # color=red
+# text(152.11182,12.320485) text={68}
+circle(152.11324,12.320514,1.6") # color=red
+# text(152.11324,12.320514) text={67}
+circle(152.11481,12.320496,1.6") # color=yellow width=4
+# text(152.11481,12.320496) text={66}
+circle(152.11632,12.320504,1.6") # color=yellow width=4
+# text(152.11632,12.320504) text={65}
+circle(152.11779,12.32052,1.6") # color=red
+# text(152.11779,12.32052) text={64}
+circle(152.11935,12.320501,1.6") # color=yellow width=4
+# text(152.11935,12.320501) text={63}
+circle(152.12086,12.320516,1.6") # color=yellow width=4
+# text(152.12086,12.320516) text={62}
+circle(152.09139,12.319188,1.6") # color=red
+# text(152.09139,12.319188) text={102}
+circle(152.09291,12.31919,1.6") # color=yellow width=4
+# text(152.09291,12.31919) text={101}
+circle(152.0944,12.319164,1.6") # color=red
+# text(152.0944,12.319164) text={100}
+circle(152.09593,12.319158,1.6") # color=red
+# text(152.09593,12.319158) text={99}
+circle(152.09745,12.319167,1.6") # color=yellow width=4
+# text(152.09745,12.319167) text={98}
+circle(152.09896,12.31921,1.6") # color=red
+# text(152.09896,12.31921) text={97}
+circle(152.10044,12.319177,1.6") # color=yellow width=4
+# text(152.10044,12.319177) text={96}
+circle(152.10196,12.319179,1.6") # color=yellow width=4
+# text(152.10196,12.319179) text={95}
+circle(152.10349,12.319194,1.6") # color=yellow width=4
+# text(152.10349,12.319194) text={94}
+circle(152.10497,12.319189,1.6") # color=yellow width=4
+# text(152.10497,12.319189) text={93}
+circle(152.10649,12.319191,1.6") # color=yellow width=4
+# text(152.10649,12.319191) text={92}
+circle(152.108,12.319179,1.6") # color=yellow width=4
+# text(152.108,12.319179) text={91}
+circle(152.10953,12.319222,1.6") # color=red
+# text(152.10953,12.319222) text={90}
+circle(152.111,12.319189,1.6") # color=red
+# text(152.111,12.319189) text={89}
+circle(152.11256,12.319163,1.6") # color=red
+# text(152.11256,12.319163) text={88}
+circle(152.11405,12.319199,1.6") # color=yellow width=4
+# text(152.11405,12.319199) text={87}
+circle(152.11553,12.319222,1.6") # color=yellow width=4
+# text(152.11553,12.319222) text={86}
+circle(152.1171,12.319238,1.6") # color=yellow width=4
+# text(152.1171,12.319238) text={85}
+circle(152.11856,12.319246,1.6") # color=red
+# text(152.11856,12.319246) text={84}
+circle(152.12012,12.319241,1.6") # color=red
+# text(152.12012,12.319241) text={83}
+circle(152.12162,12.319243,1.6") # color=yellow width=4
+# text(152.12162,12.319243) text={82}
+circle(152.09217,12.317873,1.6") # color=yellow width=4
+# text(152.09217,12.317873) text={122}
+circle(152.09363,12.317902,1.6") # color=yellow width=4
+# text(152.09363,12.317902) text={121}
+circle(152.09519,12.317904,1.6") # color=yellow width=4
+# text(152.09519,12.317904) text={120}
+circle(152.09666,12.317878,1.6") # color=red
+# text(152.09666,12.317878) text={119}
+circle(152.0982,12.317873,1.6") # color=red
+# text(152.0982,12.317873) text={118}
+circle(152.0997,12.317888,1.6") # color=red
+# text(152.0997,12.317888) text={117}
+circle(152.1012,12.317911,1.6") # color=red
+# text(152.1012,12.317911) text={116}
+circle(152.10276,12.317919,1.6") # color=red
+# text(152.10276,12.317919) text={115}
+circle(152.10424,12.317921,1.6") # color=yellow width=4
+# text(152.10424,12.317921) text={114}
+circle(152.10578,12.317937,1.6") # color=yellow width=4
+# text(152.10578,12.317937) text={113}
+circle(152.10723,12.317924,1.6") # color=red
+# text(152.10723,12.317924) text={112}
+circle(152.10878,12.317912,1.6") # color=yellow width=4
+# text(152.10878,12.317912) text={111}
+circle(152.11024,12.3179,1.6") # color=yellow width=4
+# text(152.11024,12.3179) text={110}
+circle(152.11184,12.317845,1.6") # color=yellow width=4
+# text(152.11177,12.317908) text={109}
+circle(152.11329,12.317924,1.6") # color=yellow width=4
+# text(152.11329,12.317924) text={108}
+circle(152.1148,12.317926,1.6") # color=yellow width=4
+# text(152.1148,12.317926) text={107}
+circle(152.11631,12.317928,1.6") # color=yellow width=4
+# text(152.11631,12.317928) text={106}
+circle(152.1178,12.31793,1.6") # color=red
+# text(152.1178,12.31793) text={105}
+circle(152.11934,12.318001,1.6") # color=red
+# text(152.11934,12.318001) text={104}
+circle(152.12085,12.317967,1.6") # color=red
+# text(152.12085,12.317967) text={103}
+circle(152.09142,12.316632,1.6") # color=yellow width=4
+# text(152.09142,12.316632) text={143}
+circle(152.09293,12.316613,1.6") # color=yellow width=4
+# text(152.09293,12.316613) text={142}
+circle(152.09443,12.316629,1.6") # color=yellow width=4
+# text(152.09443,12.316629) text={141}
+circle(152.09594,12.316665,1.6") # color=yellow width=4
+# text(152.09594,12.316665) text={140}
+circle(152.09743,12.316681,1.6") # color=red
+# text(152.09743,12.316681) text={139}
+circle(152.09897,12.316648,1.6") # color=yellow width=4
+# text(152.09897,12.316648) text={138}
+circle(152.10047,12.31667,1.6") # color=red
+# text(152.10047,12.31667) text={137}
+circle(152.10197,12.316651,1.6") # color=yellow width=4
+# text(152.10197,12.316651) text={136}
+circle(152.10346,12.316667,1.6") # color=red
+# text(152.10346,12.316667) text={135}
+circle(152.10502,12.316689,1.6") # color=red
+# text(152.10502,12.316689) text={134}
+circle(152.10648,12.316656,1.6") # color=yellow width=4
+# text(152.10648,12.316656) text={133}
+circle(152.108,12.316665,1.6") # color=yellow width=4
+# text(152.108,12.316665) text={132}
+circle(152.10954,12.316652,1.6") # color=yellow width=4
+# text(152.10954,12.316652) text={131}
+circle(152.11106,12.316675,1.6") # color=red
+# text(152.11106,12.316675) text={130}
+circle(152.11255,12.316663,1.6") # color=red
+# text(152.11255,12.316663) text={129}
+circle(152.11408,12.316678,1.6") # color=red
+# text(152.11408,12.316678) text={128}
+circle(152.11559,12.316674,1.6") # color=yellow width=4
+# text(152.11559,12.316674) text={127}
+circle(152.11708,12.316682,1.6") # color=red
+# text(152.11708,12.316682) text={126}
+circle(152.1186,12.316663,1.6") # color=red
+# text(152.1186,12.316663) text={125}
+circle(152.12012,12.316727,1.6") # color=red
+# text(152.12012,12.316727) text={124}
+circle(152.12162,12.316687,1.6") # color=red
+# text(152.12162,12.316687) text={123}
+circle(152.09215,12.315345,1.6") # color=yellow width=4
+# text(152.09215,12.315345) text={163}
+circle(152.09365,12.31534,1.6") # color=yellow width=4
+# text(152.09365,12.31534) text={162}
+circle(152.09521,12.315355,1.6") # color=red
+# text(152.09521,12.315355) text={161}
+circle(152.09669,12.31535,1.6") # color=red
+# text(152.09669,12.31535) text={160}
+circle(152.09819,12.315324,1.6") # color=yellow width=4
+# text(152.09819,12.315324) text={159}
+circle(152.09975,12.31536,1.6") # color=yellow width=4
+# text(152.09975,12.31536) text={158}
+circle(152.10124,12.315362,1.6") # color=red
+# text(152.10124,12.315362) text={157}
+circle(152.10272,12.315364,1.6") # color=red
+# text(152.10272,12.315364) text={156}
+circle(152.10423,12.315365,1.6") # color=red
+# text(152.10423,12.315365) text={155}
+circle(152.10576,12.31536,1.6") # color=red
+# text(152.10576,12.31536) text={154}
+circle(152.10724,12.315369,1.6") # color=red
+# text(152.10724,12.315369) text={153}
+circle(152.10877,12.315356,1.6") # color=red
+# text(152.10877,12.315356) text={152}
+circle(152.11032,12.315427,1.6") # color=red
+# text(152.11032,12.315427) text={151}
+circle(152.11182,12.315394,1.6") # color=red
+# text(152.11182,12.315394) text={150}
+circle(152.11331,12.315368,1.6") # color=red
+# text(152.11331,12.315368) text={149}
+circle(152.11483,12.315412,1.6") # color=yellow width=4
+# text(152.11483,12.315412) text={148}
+circle(152.11633,12.315386,1.6") # color=red
+# text(152.11633,12.315386) text={147}
+circle(152.11778,12.31536,1.6") # color=red
+# text(152.11778,12.31536) text={146}
+circle(152.11934,12.31541,1.6") # color=yellow width=4
+# text(152.11934,12.31541) text={145}
+circle(152.12089,12.315384,1.6") # color=red
+# text(152.12089,12.315384) text={144}
+circle(152.09144,12.314049,1.6") # color=red
+# text(152.09144,12.314049) text={184}
+circle(152.09293,12.314106,1.6") # color=yellow width=4
+# text(152.09293,12.314106) text={183}
+circle(152.09444,12.314073,1.6") # color=yellow width=4
+# text(152.09444,12.314073) text={182}
+circle(152.09593,12.314096,1.6") # color=yellow width=4
+# text(152.09593,12.314096) text={181}
+circle(152.09748,12.314104,1.6") # color=yellow width=4
+# text(152.09748,12.314104) text={180}
+circle(152.09892,12.314078,1.6") # color=red
+# text(152.09892,12.314078) text={179}
+circle(152.10047,12.314066,1.6") # color=yellow width=4
+# text(152.10047,12.314066) text={178}
+circle(152.102,12.314109,1.6") # color=yellow width=4
+# text(152.102,12.314109) text={177}
+circle(152.10348,12.314049,1.6") # color=yellow width=4
+# text(152.10348,12.314049) text={176}
+circle(152.10497,12.314078,1.6") # color=red
+# text(152.10497,12.314078) text={175}
+circle(152.1065,12.314087,1.6") # color=red
+# text(152.1065,12.314087) text={174}
+circle(152.10804,12.314109,1.6") # color=yellow width=4
+# text(152.10804,12.314109) text={173}
+circle(152.10955,12.314097,1.6") # color=red
+# text(152.10955,12.314097) text={172}
+circle(152.11102,12.314105,1.6") # color=red
+# text(152.11102,12.314105) text={171}
+circle(152.11255,12.314142,1.6") # color=yellow width=4
+# text(152.11255,12.314142) text={170}
+circle(152.11404,12.314116,1.6") # color=yellow width=4
+# text(152.11404,12.314116) text={169}
+circle(152.11559,12.314146,1.6") # color=yellow width=4
+# text(152.11559,12.314146) text={168}
+circle(152.11712,12.314147,1.6") # color=yellow width=4
+# text(152.11712,12.314147) text={167}
+circle(152.11863,12.314156,1.6") # color=red
+# text(152.11863,12.314156) text={166}
+circle(152.1201,12.314144,1.6") # color=yellow width=4
+# text(152.1201,12.314144) text={165}
+circle(152.12161,12.314145,1.6") # color=yellow width=4
+# text(152.12161,12.314145) text={164}
+circle(152.09219,12.312769,1.6") # color=red
+# text(152.09219,12.312769) text={204}
+circle(152.09367,12.312812,1.6") # color=yellow width=4
+# text(152.09367,12.312812) text={203}
+circle(152.09519,12.312779,1.6") # color=yellow width=4
+# text(152.09519,12.312779) text={202}
+circle(152.09671,12.312788,1.6") # color=yellow width=4
+# text(152.09671,12.312788) text={201}
+circle(152.09822,12.312796,1.6") # color=red
+# text(152.09822,12.312796) text={200}
+circle(152.09973,12.312819,1.6") # color=red
+# text(152.09973,12.312819) text={199}
+circle(152.10129,12.3128,1.6") # color=red
+# text(152.10129,12.3128) text={198}
+circle(152.10276,12.312808,1.6") # color=yellow width=4
+# text(152.10276,12.312808) text={197}
+circle(152.10428,12.312851,1.6") # color=yellow width=4
+# text(152.10428,12.312851) text={196}
+circle(152.10579,12.312818,1.6") # color=red
+# text(152.10579,12.312818) text={195}
+circle(152.10722,12.312813,1.6") # color=red
+# text(152.10722,12.312813) text={194}
+circle(152.10878,12.312808,1.6") # color=yellow width=4
+# text(152.10878,12.312808) text={193}
+circle(152.11035,12.312851,1.6") # color=red
+# text(152.11035,12.312851) text={192}
+circle(152.11184,12.312846,1.6") # color=red
+# text(152.11184,12.312846) text={191}
+circle(152.11328,12.31282,1.6") # color=red
+# text(152.11328,12.31282) text={190}
+circle(152.11482,12.312822,1.6") # color=red
+# text(152.11482,12.312822) text={189}
+circle(152.11635,12.312852,1.6") # color=red
+# text(152.11635,12.312852) text={188}
+circle(152.11785,12.312846,1.6") # color=yellow width=4
+# text(152.11785,12.312846) text={187}
+circle(152.11936,12.312862,1.6") # color=red
+# text(152.11936,12.312862) text={186}
+circle(152.1209,12.312842,1.6") # color=yellow width=4
+# text(152.1209,12.312842) text={185}
+circle(152.09144,12.311528,1.6") # color=yellow width=4
+# text(152.09144,12.311528) text={225}
+circle(152.09292,12.31153,1.6") # color=red
+# text(152.09292,12.31153) text={224}
+circle(152.09441,12.311511,1.6") # color=yellow width=4
+# text(152.09441,12.311511) text={223}
+circle(152.09596,12.311547,1.6") # color=red
+# text(152.09596,12.311547) text={222}
+circle(152.09748,12.311549,1.6") # color=red
+# text(152.09748,12.311549) text={221}
+circle(152.09902,12.311557,1.6") # color=red
+# text(152.09902,12.311557) text={220}
+circle(152.10049,12.311531,1.6") # color=red
+# text(152.10049,12.311531) text={219}
+circle(152.10197,12.311554,1.6") # color=red
+# text(152.10197,12.311554) text={218}
+circle(152.10351,12.311548,1.6") # color=red
+# text(152.10351,12.311548) text={217}
+circle(152.10503,12.311536,1.6") # color=red
+# text(152.10503,12.311536) text={216}
+circle(152.10653,12.311531,1.6") # color=red
+# text(152.10653,12.311531) text={215}
+circle(152.10807,12.311547,1.6") # color=yellow width=4
+# text(152.10807,12.311547) text={214}
+circle(152.10957,12.311569,1.6") # color=red
+# text(152.10957,12.311569) text={213}
+circle(152.11105,12.311522,1.6") # color=red
+# text(152.11105,12.311522) text={212}
+circle(152.11255,12.311572,1.6") # color=yellow width=4
+# text(152.11255,12.311572) text={211}
+circle(152.11408,12.311574,1.6") # color=yellow width=4
+# text(152.11408,12.311574) text={210}
+circle(152.11557,12.311563,1.6") # color=red
+# text(152.11557,12.311563) text={209}
+circle(152.11708,12.31155,1.6") # color=red
+# text(152.11708,12.31155) text={208}
+circle(152.1186,12.311566,1.6") # color=red
+# text(152.1186,12.311566) text={207}
+circle(152.12016,12.311574,1.6") # color=red
+# text(152.12016,12.311574) text={206}
+circle(152.1216,12.311583,1.6") # color=yellow width=4
+# text(152.1216,12.311583) text={205}
+circle(152.09219,12.310241,1.6") # color=yellow width=4
+# text(152.09219,12.310241) text={245}
+circle(152.09368,12.310242,1.6") # color=yellow width=4
+# text(152.09368,12.310242) text={244}
+circle(152.0952,12.310258,1.6") # color=red
+# text(152.0952,12.310258) text={243}
+circle(152.09672,12.310246,1.6") # color=red
+# text(152.09672,12.310246) text={242}
+circle(152.09823,12.310227,1.6") # color=red
+# text(152.09823,12.310227) text={241}
+circle(152.09971,12.310249,1.6") # color=yellow width=4
+# text(152.09971,12.310249) text={240}
+circle(152.10126,12.310251,1.6") # color=red
+# text(152.10126,12.310251) text={239}
+circle(152.10274,12.310273,1.6") # color=red
+# text(152.10274,12.310273) text={238}
+circle(152.10427,12.310282,1.6") # color=red
+# text(152.10427,12.310282) text={237}
+circle(152.10578,12.31027,1.6") # color=red
+# text(152.10578,12.31027) text={236}
+circle(152.10732,12.310258,1.6") # color=red
+# text(152.10732,12.310258) text={235}
+circle(152.10875,12.310301,1.6") # color=yellow width=4
+# text(152.10875,12.310301) text={234}
+circle(152.11029,12.310247,1.6") # color=red
+# text(152.11029,12.310247) text={233}
+circle(152.11181,12.310269,1.6") # color=red
+# text(152.11181,12.310269) text={232}
+circle(152.11336,12.310306,1.6") # color=red
+# text(152.11336,12.310306) text={231}
+circle(152.11489,12.310274,1.6") # color=yellow width=4
+# text(152.11489,12.310274) text={230}
+circle(152.11636,12.310289,1.6") # color=yellow width=4
+# text(152.11636,12.310289) text={229}
+circle(152.11785,12.310298,1.6") # color=red
+# text(152.11785,12.310298) text={228}
+circle(152.11939,12.310292,1.6") # color=red
+# text(152.11939,12.310292) text={227}
+circle(152.1209,12.310287,1.6") # color=red
+# text(152.1209,12.310287) text={226}
+circle(152.09146,12.308952,1.6") # color=yellow width=4
+# text(152.09146,12.308952) text={266}
+circle(152.09295,12.308974,1.6") # color=yellow width=4
+# text(152.09295,12.308974) text={265}
+circle(152.09446,12.308955,1.6") # color=red
+# text(152.09446,12.308955) text={264}
+circle(152.09596,12.309005,1.6") # color=yellow width=4
+# text(152.09596,12.309005) text={263}
+circle(152.09743,12.308979,1.6") # color=yellow width=4
+# text(152.09743,12.308979) text={262}
+circle(152.099,12.308981,1.6") # color=red
+# text(152.099,12.308981) text={261}
+circle(152.10052,12.309003,1.6") # color=yellow width=4
+# text(152.10052,12.309003) text={260}
+circle(152.10197,12.309019,1.6") # color=yellow width=4
+# text(152.10197,12.309019) text={259}
+circle(152.10353,12.308958,1.6") # color=yellow width=4
+# text(152.10353,12.308958) text={258}
+circle(152.10501,12.309008,1.6") # color=red
+# text(152.10501,12.309008) text={257}
+circle(152.10656,12.309003,1.6") # color=red
+# text(152.10656,12.309003) text={256}
+circle(152.10803,12.308998,1.6") # color=yellow width=4
+# text(152.10803,12.308998) text={255}
+circle(152.10956,12.309006,1.6") # color=red
+# text(152.10956,12.309006) text={254}
+circle(152.11109,12.309029,1.6") # color=red
+# text(152.11109,12.309029) text={253}
+circle(152.11257,12.30903,1.6") # color=red
+# text(152.11257,12.30903) text={252}
+circle(152.11411,12.309004,1.6") # color=yellow width=4
+# text(152.11411,12.309004) text={251}
+circle(152.11563,12.309028,1.6") # color=yellow width=4
+# text(152.11563,12.309028) text={250}
+circle(152.11711,12.309022,1.6") # color=red
+# text(152.11711,12.309022) text={249}
+circle(152.11865,12.309031,1.6") # color=yellow width=4
+# text(152.11865,12.309031) text={248}
+circle(152.12019,12.309046,1.6") # color=red
+# text(152.12019,12.309046) text={247}
+circle(152.12171,12.309041,1.6") # color=red
+# text(152.12171,12.309041) text={246}
