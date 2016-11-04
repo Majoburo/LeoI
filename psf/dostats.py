@@ -46,6 +46,7 @@ for index in xrange(t['Estimated_Std'].shape[1]):
     for i in xrange(b_bins):
         binnedstd = t['Estimated_Std'][(t['Bin'] == i+1)][:, index, 1]
         binnedvel = t['Velocity'][(t['Bin'] == i+1)]
+        print np.sqrt(np.sum(binnedvel*binnedvel)/len(binnedvel))
         loglikelihood[i, index] = -np.sum(((binnedvel)/(binnedstd))**2/2) - np.log(np.prod(np.sqrt(2*np.pi)*binnedstd))
 
 plt.plot(sigmarange, loglikelihood[3])
