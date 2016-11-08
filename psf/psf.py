@@ -146,8 +146,7 @@ def calculatestd(t):
         #fibers = t[t['N_Stars'] > 0]
         #fluxfib = np.array(fibers['Flux'])
         #n_starsfib = np.array(fibers['N_Stars'])
-        for fiber in [t[t['N_Stars'] > 0][60]]:
-            print fiber
+        for fiber in t[t['N_Stars'] > 0]:
         #for ii in xrange(len(fibers)):
             flux = fiber['Flux'][:fiber['N_Stars']]
             #flux = fluxfib[ii][:n_starsfib[ii]]
@@ -235,5 +234,6 @@ if __name__ == '__main__':
         t['Flux'][t['Bin'] > 0] = stars_fluxlist
         t['Estimated_Std'][t['N_Stars'] > 0] = calculatestd(t)
         t.write("Leo_table.fits", format='fits')
+        t=t[60:62]
         print t
 
