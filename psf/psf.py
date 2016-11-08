@@ -51,6 +51,12 @@ def mateo_data(mateotable):
 
     return mateo_data
 
+def ellipse(ab, angle, x, y):
+    sin = np.sin(np.deg2rad(angle))
+    cos = np.cos(np.deg2rad(angle))
+    return np.sqrt(((x*cos+y*sin)/ab)**2 + (x*sin-y*cos)**2)
+
+
 def binfibers(fitsfile, table):
 #I use a fits file just for the convinience of calculating this in pixels.
     vwfibers = table[table['Diameter']==3.2]
@@ -68,12 +74,10 @@ def binfibers(fitsfile, table):
     b = np.sqrt((furtherxy[0]/ab)**2 + (furtherxy[1])**2)  #Taking an extra bins outside the ifu
     fiberbin = np.zeros(len(fibers))
     for i in xrange(bins):
-        maskfibers = ( (np.sqrt(((centerpix - fiberpixcrd)[:,0]/ab)**2
-                              + ((centerpix - fiberpixcrd)[:,1])**2) <= (i+1)*b/3.)
-                      *(np.sqrt(((centerpix - fiberpixcrd)[:,0]/ab)**2
-                              + ((centerpix - fiberpixcrd)[:,1])**2) > i*b/3.))
-        distance = np.sqrt(((centerpix - fiberpixcrd)[:,0]/ab)**2
-                              + ((centerpix - fiberpixcrd)[:,1])**2)[maskfibers]
+        x, y = (centerpix - fiberpixcrd)[:,1], (centerpix - fiberpixcrd)[:,0]
+        ell = ellipse(ab, -10., x, y)
+        maskfibers = (ell <= (i+1)*b/3.)*(ell > i*b/3.)
+        distance = ell[maskfibers]
         fiberbin = fiberbin + maskfibers * (i+1)
         distance = np.sum(distance)/len(distance)
         with fits.open(fitsfile) as hdu:
@@ -142,7 +146,8 @@ def calculatestd(t):
         #fibers = t[t['N_Stars'] > 0]
         #fluxfib = np.array(fibers['Flux'])
         #n_starsfib = np.array(fibers['N_Stars'])
-        for fiber in t[t['N_Stars'] > 0]:
+        for fiber in [t[t['N_Stars'] > 0][60]]:
+            print fiber
         #for ii in xrange(len(fibers)):
             flux = fiber['Flux'][:fiber['N_Stars']]
             #flux = fluxfib[ii][:n_starsfib[ii]]
@@ -166,7 +171,8 @@ def calculatestd(t):
         end = time.time()
         print "This calculation took (in seconds):"
         print(end - start)
-        np.savetxt("std_%.2f_%d.txt"%(float(sys.argv[1]),iterations),astd)
+        if len(sys.argv) < 4:
+            np.savetxt("std_%.2f_%d.txt"%(float(sys.argv[1]),iterations),astd)
         astd.shape = (len(fiberIMAGEstd), 1, 2)
         return astd
 
