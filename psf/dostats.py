@@ -13,6 +13,8 @@ from astropy.table import Table
 
 
 def add_estimated_std():
+    t = Table.read('Leo_table.fits')
+    print t
     stdest = []
     #for a in glob.glob(sys.argv[1]+"std*_1000.txt"):
     for a in glob.glob("std*_1000.txt"):
@@ -34,13 +36,45 @@ def add_estimated_std():
     #Table.write(table, sys.argv[1]+'Leo_tabule.fits', overwrite = True)
     return
 
-add_estimated_std()
-exit()
+#add_estimated_std()
+#exit()
+def func_flux(x):
+    return 27.9585 - 0.456327*x + 0.0101273*x**2
+
+
+
+t = Table.read('std_10000_cat123/Leo_table.fits')
 t1 = Table.read('std_1000_cat_1/Leo_table.fits')
 t23 = Table.read('std_1000_cat_23/Leo_table.fits')
-catmask = t1['Catalog'] > 1
-t['Estimated_Std'][catmask][:,:,1] = t23['Estimated_Std'][catmask][:,:,1]
+catmask = (t1['N_Stars'] > 0)*(t23['N_Stars'] > 0)
 
+for i in range(140):
+    y2 = t23['Estimated_Std'][catmask][:,i,1]
+    y1 = t1['Estimated_Std'][catmask][:,i,1]
+    p = np.poly1d(np.polyfit(y2, y1, 2))
+    t['Estimated_Std'][:,i,1][t['Catalog'] > 1] = p(t['Estimated_Std'][:,i,1][t['Catalog'] > 1])
+    #plt.plot(y2,y1,'ro')
+    #plt.plot(y2,p(y2),'ro')
+    #plt.show()
+table = t[t['N_Stars'] > 0]
+Table.write(table, 'std_10000_cat123/Leo_tabule.fits', overwrite = True)
+'''
+for i, x in enumerate(t23["Estimated_Std"][catmask][:,:,1].T):
+    y = np.array(x/np.max(t23["Flux"][catmask],axis=1)*func_flux(np.max(t23["Flux"],axis=1)[catmask])).T
+    
+    p = np.poly1d(np.polyfit(y, y2[i], 2))
+    print i,np.sum(abs(y2[i]-p(y)))
+    #range = np.linspace(5, 10, 100)
+    #plt.scatter(y,y2[i])
+    #plt.plot(range,p(range))
+    #plt.show()
+exit()
+a = np.array([x/np.max(t23["Flux"][catmask],axis=1)*func_flux(np.max(t23["Flux"],axis=1)[catmask]) for x in t23["Estimated_Std"][catmask][:,:,1].T]).T
+b = t23['Estimated_Std'][catmask][:,:,1]
+print (b-a)[0]
+
+exit()
+'''
 b_bins = 4
 t = Table.read(sys.argv[1]+'Leo_tabule.fits')
 loglikelihood = np.zeros((b_bins, t['Estimated_Std'].shape[1],100)) #first row is the xvalues
@@ -63,6 +97,7 @@ for index in xrange(t['Estimated_Std'].shape[1]):
             #binnedstd = t['Estimated_Std'][(t['Bin'] == i+1)*(np.max(t['Flux'],axis=1) > minflux)*(t["Diameter"]==1.6)][:, index, 1]
             #binnedvel = t['Velocity'][(t['Bin'] == i+1)*(np.max(t['Flux'],axis=1) > minflux)*(t["Diameter"]==1.6)]
             loglikelihood[i, index, j] = -np.sum(((binnedvel)/(binnedstd))**2/2) - np.log(np.prod(np.sqrt(2*np.pi)*binnedstd))
+    print "hello"
 '''            original[index, i, j] = np.sqrt(np.sum(binnedvel*binnedvel)/len(binnedvel-1))
 
 
@@ -103,10 +138,10 @@ for minflux in range(100):
         f = interp1d(sigmarange, bin, kind = 'linear')
         window_size, poly_order = 1251, 4
         yy_sg = savgol_filter(f(fitrange), window_size, poly_order)
-        #plt.plot(sigmarange,bin)
-        #plt.plot(fitrange, yy_sg, 'k', label= "Smoothed curve")
+        plt.plot(sigmarange,bin)
+        plt.plot(fitrange, yy_sg, 'k', label= "Smoothed curve")
         #plt.plot(fitrange, f(fitrange))
-        #plt.show()
+        plt.show()
         #test = 100. * np.exp(f(fitrange))/np.sum(np.exp(f(fitrange)))
         test = 100. * np.exp(yy_sg)/np.sum(np.exp(yy_sg))
         likelihoodfit.append(test)
