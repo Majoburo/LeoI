@@ -15,6 +15,7 @@ import re
 import toolbox
 import time
 import sys
+import h5py
 
 config = configobj.ConfigObj("config.ini")
 #I will only append 50 stars maximum.
