@@ -233,7 +233,7 @@ if __name__ == '__main__':
         t['N_Stars'][t['Bin'] > 0] = n_starslist
         t['Flux'][t['Bin'] > 0] = stars_fluxlist
         t['Estimated_Std'][t['N_Stars'] > 0] = calculatestd(t)
+        t = t[60:62]
         t.write("Leo_table.fits", format='fits')
-        t=t[60:62]
         print t
 
