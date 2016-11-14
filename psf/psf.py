@@ -74,10 +74,19 @@ def binfibers(fitsfile, table):
     furtherxy = (furtherxy - centerpix)[0]
     b = np.sqrt((furtherxy[0]/ab)**2 + (furtherxy[1])**2)  #Taking an extra bins outside the ifu
     fiberbin = np.zeros(len(fibers))
+    t = Table.read("std_10000_cat123/Leo_table.fits")
+    print np.sum(t['N_Stars']>0)/4.
+    jj = 0
     for i in xrange(bins):
         x, y = (centerpix - fiberpixcrd)[:,1], (centerpix - fiberpixcrd)[:,0]
         ell = ellipse(ab, -10., x, y)
-        maskfibers = (ell <= (i+1)*b/3.)*(ell > i*b/3.)
+        maskfibers = 0
+        j = 0
+        while np.sum(maskfibers) < 31:
+            j = j + 1
+            maskfibers = (ell <= ((j+jj)/100.)*b/3.)*(ell > (jj/100.)*b/3.)
+        print ((j+jj)/100.)*b/3.,(jj/100.)*b/3.
+        jj = j+jj
         distance = ell[maskfibers]
         fiberbin = fiberbin + maskfibers * (i+1)
         distance = np.sum(distance)/len(distance)
@@ -234,7 +243,7 @@ if __name__ == '__main__':
         t['N_Stars'][t['Bin'] > 0] = n_starslist
         t['Flux'][t['Bin'] > 0] = stars_fluxlist
         t['Estimated_Std'][t['N_Stars'] > 0] = calculatestd(t)
-        t.write("Leo_table.fits", format='fits')
-        t=t[60:62]
+        t.write("Leo_table.hdf5", path='updated_data')
+        #t=t[60:62]
         print t
 
