@@ -52,7 +52,7 @@ def mateo_data(mateotable):
 
     return mateo_data
 
-def ellipse(ab, angle, x, y):
+def ellipse_major_axis(ab, angle, x, y):
     sin = np.sin(np.deg2rad(angle))
     cos = np.cos(np.deg2rad(angle))
     return np.sqrt(((x*cos+y*sin)/ab)**2 + (x*sin-y*cos)**2)
@@ -63,13 +63,13 @@ def binfibers(fitsfile, table):
     vwfibers = table[table['Diameter']==3.2]
     center = [np.array([config['Parameters']['ellipse_center_RA'], config['Parameters']['ellipse_center_DEC']],dtype = float)]
     ab = float(config['Parameters']['ab'])
+    angle = float(config['Parameters']['angle'])
     bins = int(config['Parameters']['bins'])
     with fits.open(fitsfile) as hdu:
         w = wcs.WCS(hdu[0].header)
         vwpixcrd = w.wcs_world2pix(zip(vwfibers['RA'], vwfibers['DEC']),1)
         fiberpixcrd = w.wcs_world2pix(zip(table['RA'], table['DEC']), 1)
         centerpix = w.wcs_world2pix(center,1)
-    bins = 4
     furtherxy = vwpixcrd[np.argmax(np.sum((centerpix - vwpixcrd)**2,axis=1))]
     furtherxy = (furtherxy - centerpix)[0]
     b = np.sqrt((furtherxy[0]/ab)**2 + (furtherxy[1])**2)  #Taking an extra bins outside the ifu
@@ -79,27 +79,28 @@ def binfibers(fitsfile, table):
     jj = 0
     for i in xrange(bins):
         x, y = (centerpix - fiberpixcrd)[:,1], (centerpix - fiberpixcrd)[:,0]
-        ell = ellipse(ab, -10., x, y)
+        ell_b = ellipse_major_axis(ab, angle, x, y)
         maskfibers = 0
         j = 0
-        while np.sum(maskfibers) < 31:
+        while np.sum(maskfibers) <= 27:
             j = j + 1
-            maskfibers = (ell <= ((j+jj)/100.)*b/3.)*(ell > (jj/100.)*b/3.)
+            maskfibers = (ell_b <= ((j+jj)/100.)*b/3.)*(ell_b > (jj/100.)*b/3.)
 
         #print ((j+jj)/100.)*b/3.,(jj/100.)*b/3.
         jj = j+jj
-        distance = ell[maskfibers]
+        distance = ell_b[maskfibers]
         fiberbin = fiberbin + maskfibers * (i+1)
         distance = np.sum(distance)/len(distance)
         with fits.open(fitsfile) as hdu:
             print "Average distance in arcsec in bin %d: %f"%(i, toolbox.pixtodeg(hdu, distance)*3600)
     table['Bin'] = fiberbin
+    #print table[(table['Diameter']==3.2)*(table['Bin']==4)]
     return
 
 def getflux(fitsfile, catalogfile, table):
     catalog = np.loadtxt(catalogfile)
-    catalog = catalog[catalog[:,-1]==0] #only taking detections without a flag warning
-    catalog = catalog[catalog[:,5] < 26]
+    #catalog = catalog[catalog[:,-1]==0] #only taking detections without a flag warning
+    #catalog = catalog[catalog[:,5] < 26]
     fiber = table[table['Bin'] > 0] #== float(sys.argv[3])]
     RA = fiber['RA']
     DEC = fiber['DEC']
