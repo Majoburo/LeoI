@@ -99,8 +99,8 @@ def binfibers(fitsfile, table):
 
 def getflux(fitsfile, catalogfile, table):
     catalog = np.loadtxt(catalogfile)
-    #catalog = catalog[catalog[:,-1]==0] #only taking detections without a flag warning
-    #catalog = catalog[catalog[:,5] < 26]
+    catalog = catalog[catalog[:,-1]==0] #only taking detections without a flag warning
+    catalog = catalog[catalog[:,5] < 26]
     fiber = table[table['Bin'] > 0] #== float(sys.argv[3])]
     RA = fiber['RA']
     DEC = fiber['DEC']
