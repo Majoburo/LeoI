@@ -73,8 +73,8 @@ def binfibers(fitsfile, table):
     furtherxy = (furtherxy - centerpix)[0]
     b = np.sqrt((furtherxy[0]/ab)**2 + (furtherxy[1])**2)  #Taking an extra bins outside the ifu
     fiberbin = np.zeros(len(fibers))
-    t = Table.read("std_10000_cat123/Leo_table.fits")
-    print np.sum(t['N_Stars']>0)/4.
+    #t = Table.read("std_10000_cat123/Leo_table.fits")
+    #print np.sum(t['N_Stars']>0)/4.
     jj = 0
     for i in xrange(bins):
         x, y = (centerpix - fiberpixcrd)[:,1], (centerpix - fiberpixcrd)[:,0]
@@ -84,7 +84,8 @@ def binfibers(fitsfile, table):
         while np.sum(maskfibers) < 31:
             j = j + 1
             maskfibers = (ell <= ((j+jj)/100.)*b/3.)*(ell > (jj/100.)*b/3.)
-        print ((j+jj)/100.)*b/3.,(jj/100.)*b/3.
+
+        #print ((j+jj)/100.)*b/3.,(jj/100.)*b/3.
         jj = j+jj
         distance = ell[maskfibers]
         fiberbin = fiberbin + maskfibers * (i+1)
@@ -96,7 +97,9 @@ def binfibers(fitsfile, table):
 
 def getflux(fitsfile, catalogfile, table):
     catalog = np.loadtxt(catalogfile)
-    fiber = table[table['Bin'] > 0]
+    catalog = catalog[catalog[:,-1]==0] #only taking detections without a flag warning
+    catalog = catalog[catalog[:,5] < 26]
+    fiber = table[table['Bin'] > 0] #== float(sys.argv[3])]
     RA = fiber['RA']
     DEC = fiber['DEC']
     #The median seeing for fibers in Hectochelle: 0.7.
@@ -122,9 +125,12 @@ def getflux(fitsfile, catalogfile, table):
 
     stars_flux = np.zeros((len(starpos), maxstars))
     n_stars = np.zeros(len(starpos))
+    #f=open("coord_deep_bin%s.txt"%sys.argv[3],'ab')
     for i, star in enumerate(starpos):
         mask_nb_fib = (star[1] - leophot[mask][:,1])**2 + (star[2] - leophot[mask][:,2])**2 < star[4]**2
-        #np.savetxt('coord%d_%d.txt'%(star[0], i), leophot[:,1:3][mask][mask_nb_fib])
+        #f.write("%f /n"%leophot[:,0][mask][mask_nb_fib])
+        #np.savetxt(f, leophot[:,0][mask][mask_nb_fib])
+        #np.savetxt(f, np.arange(len(mask_nb_fib))[mask_nb_fib])
         vec_dist = (star[1:3] - leophot[:,1:3][mask][mask_nb_fib])
         cD = np.sqrt(vec_dist[:,0]**2 + vec_dist[:,1]**2)
         M = leophot[mask][mask_nb_fib][:,0]
@@ -137,6 +143,8 @@ def getflux(fitsfile, catalogfile, table):
             n_stars[i] = j+1
         if n_stars[i] > 0:
             stars_flux[i] = flux/np.sum(flux)*100.
+    #f.close()
+    #exit()
     return n_stars, stars_flux
 
 def calculatestd(t):
@@ -242,7 +250,8 @@ if __name__ == '__main__':
         t['N_Stars'][t['Bin'] > 0] = n_starslist
         t['Flux'][t['Bin'] > 0] = stars_fluxlist
         t['Estimated_Std'][t['N_Stars'] > 0] = calculatestd(t)
-        t.write("Leo_table.hdf5", path='updated_data')
+        #t.write("Leo_table.hdf5", path = 'updated_data')
+        t.write("Leo_table.fits", format = 'fits')
         #t=t[60:62]
         print t
 
