@@ -1,5 +1,5 @@
 #!/bin/sh
-iterations=10000
+iterations=1000
 sigmamin=5
 sigmamax=40
 sigmastep=0.25

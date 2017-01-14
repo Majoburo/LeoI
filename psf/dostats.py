@@ -13,8 +13,6 @@ from astropy.table import Table
 
 
 def add_estimated_std():
-    t = Table.read('Leo_table.fits')
-    print t
     stdest = []
     #for a in glob.glob(sys.argv[1]+"std*_1000.txt"):
     for a in glob.glob("std*_1000.txt"):
@@ -26,28 +24,30 @@ def add_estimated_std():
         stdest[i] = fiber[np.argsort(fiber, axis = 0)[:, 0]]
     #t = Table.read(sys.argv[1]+'Leo_table.fits')
     t = Table.read('Leo_table.fits')
-    print t
-    table = t[t['N_Stars'] > 0]
-    table.replace_column('Estimated_Std', stdest)
-    table.add_row(table[0])
-    t2 = Table.read('std_1000_cat_1/Leo_table.fits')
-    print t2[60]
-    print table[0]
-    #Table.write(table, sys.argv[1]+'Leo_tabule.fits', overwrite = True)
+    est_std = np.zeros((len(t),140,2))
+    est_std[t['N_Stars'] > 0] = stdest
+    table = t
+    table.replace_column('Estimated_Std', est_std)
+    #table.add_row(table[0])
+    #t2 = Table.read('std_1000_cat_1/Leo_table.fits')
+    #print t2[60]
+    print table
+    Table.write(table, 'Leo_table.fits', overwrite = True)
     return
 
-#add_estimated_std()
-#exit()
+add_estimated_std()
+exit()
 def func_flux(x):
     return 27.9585 - 0.456327*x + 0.0101273*x**2
 
 
 
 t = Table.read('std_10000_cat123/Leo_table.fits')
+t = Table.read('Leo_table.fits')
 t1 = Table.read('std_1000_cat_1/Leo_table.fits')
 t23 = Table.read('std_1000_cat_23/Leo_table.fits')
 catmask = (t1['N_Stars'] > 0)*(t23['N_Stars'] > 0)
-
+'''
 for i in range(140):
     y2 = t23['Estimated_Std'][catmask][:,i,1]
     y1 = t1['Estimated_Std'][catmask][:,i,1]
@@ -58,6 +58,7 @@ for i in range(140):
     #plt.show()
 table = t[t['N_Stars'] > 0]
 Table.write(table, 'std_10000_cat123/Leo_tabule.fits', overwrite = True)
+'''
 '''
 for i, x in enumerate(t23["Estimated_Std"][catmask][:,:,1].T):
     y = np.array(x/np.max(t23["Flux"][catmask],axis=1)*func_flux(np.max(t23["Flux"],axis=1)[catmask])).T
@@ -76,7 +77,7 @@ print (b-a)[0]
 exit()
 '''
 b_bins = 4
-t = Table.read(sys.argv[1]+'Leo_tabule.fits')
+t = Table.read('Leo_table.fits')
 loglikelihood = np.zeros((b_bins, t['Estimated_Std'].shape[1],100)) #first row is the xvalues
 sigmarange = t['Estimated_Std'][1][:, 0]
 vel1 = t['Velocity'][t['Diameter'] == 1.6]
@@ -97,7 +98,6 @@ for index in xrange(t['Estimated_Std'].shape[1]):
             #binnedstd = t['Estimated_Std'][(t['Bin'] == i+1)*(np.max(t['Flux'],axis=1) > minflux)*(t["Diameter"]==1.6)][:, index, 1]
             #binnedvel = t['Velocity'][(t['Bin'] == i+1)*(np.max(t['Flux'],axis=1) > minflux)*(t["Diameter"]==1.6)]
             loglikelihood[i, index, j] = -np.sum(((binnedvel)/(binnedstd))**2/2) - np.log(np.prod(np.sqrt(2*np.pi)*binnedstd))
-    print "hello"
 '''            original[index, i, j] = np.sqrt(np.sum(binnedvel*binnedvel)/len(binnedvel-1))
 
 
@@ -111,7 +111,7 @@ plt.ylabel("Mean Velocity Dispersion")
 plt.title("PATCHED CATALOGS")
 plt.legend()
 plt.show()
-
+'''
 loglikelihood = np.mean(loglikelihood, axis=1)
 plt.plot(loglikelihood[0], label="Bin 1")
 plt.plot(loglikelihood[1], label="Bin 2")
@@ -124,6 +124,7 @@ plt.legend()
 plt.show()
 #print loglikelihood
 #exit()
+'''
 '''
 lowersigma = np.min(sigmarange)
 uppersigma = np.max(sigmarange)
