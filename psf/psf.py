@@ -22,6 +22,14 @@ comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
 
+range_start = 5
+range_stop  = 40
+step        = 0.25
+steps_per_proc = np.abs((range_stop-range_start)/step)/size
+
+my_start =    rank*steps_per_proc*step + range_start
+my_stop = (rank+1)*steps_per_proc*step + range_start
+
 
 config = configobj.ConfigObj("config.ini")
 #I will only append 50 stars maximum.
@@ -204,23 +212,18 @@ def calculatestd(t,guess_speed):
 if __name__ == '__main__':
     if os.path.isfile("Leo_table.hdf5"):
         curr_rank=0
-        while(curr_rank<size):
-            if rank == curr_rank:
-                t = Table.read("Leo_table.hdf5")
-                #calculatestd(t)
-                #'''
-                astd = np.zeros((len(t), 1, 2))
-                astd[t['N_Stars'] > 0] = calculatestd(t)
-                ostd = np.array(t['Estimated_Std'])
-                #if len(ostd.shape)==2:
-                #    ostd.shape = (ostd.shape[0], 1, ostd.shape[1])
-                astd = np.concatenate((ostd, astd), axis=1)
-                t.replace_column('Estimated_Std', astd)
-                t.write("Leo_table.hdf5", path = 'updated_data', overwrite=True)
-                #'''
-            if rank == 0:
-                curr_rank+=1
-            curr_rank = comm.bcast(curr_rank,root=0)
+        t = Table.read("Leo_table.hdf5")
+        astd = np.zeros((len(t), 1, 2))
+        for guess in range(my_start,my_stop,step):
+            astd[t['N_Stars'] > 0] = calculatestd(t,guess)
+            ostd = np.array(t['Estimated_Std'])
+            astd = np.concatenate((ostd, astd), axis=1)
+            t.replace_column('Estimated_Std', astd)
+        all_stds = comm.gather(t['Estimated_Std'],root=0)
+        if rank == 0:
+            astd = np.concatenate(all_stds,axis=1)
+            t.replace_column('Estimated_Std', astd)
+            t.write("Leo_table.hdf5", path = 'updated_data', overwrite=True)
     else:
         if rank==0:
             #Loading vw position an kinematic data:
