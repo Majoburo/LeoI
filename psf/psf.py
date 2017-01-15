@@ -155,13 +155,14 @@ def getflux(fitsfile, catalogfile, table):
     #exit()
     return n_stars, stars_flux
 
-def calculatestd(t):
+def calculatestd(t,guess_speed):
 
         start = time.time()
         fiberIMAGEstd = []
         iterations = int(sys.argv[2])
         enhance = 10
-        guess_speed = float(sys.argv[1])*enhance
+        guess_speed = float(guess_speed)*enhance
+        #guess_speed = float(sys.argv[1])*enhance
         lenarray = 1000*enhance
         width = 27.*enhance
         #Doing normalized cross correlation (just as like with the data)
@@ -221,51 +222,52 @@ if __name__ == '__main__':
                 curr_rank+=1
             curr_rank = comm.bcast(curr_rank,root=0)
     else:
-        #Loading vw position an kinematic data:
-        vwpos = VW_IFU_pos(config["vw"]["regionsfile"])
-        vwkin = np.loadtxt(config['vw']["data"])
-        # Selecting only star fibers in vw.
-        vwstarfibers = np.in1d(vwpos[:,0], vwkin[:,0])
-        vwpos = vwpos[vwstarfibers]
-        # Appending fiber diameter (for only only distinction between vw and hectochelle fibers)
-        vwfibers = np.column_stack((vwpos, vwkin[:,2], np.ones(len(vwpos))*3.2, np.ones(len(vwpos))*1.5))
-        mateodata = mateo_data(config['mateo']["data"])
-        mateofibers = np.column_stack((mateodata, np.ones(len(mateodata))*1.6, np.ones(len(mateodata))*0.7))
+        if rank==0:
+            #Loading vw position an kinematic data:
+            vwpos = VW_IFU_pos(config["vw"]["regionsfile"])
+            vwkin = np.loadtxt(config['vw']["data"])
+            # Selecting only star fibers in vw.
+            vwstarfibers = np.in1d(vwpos[:,0], vwkin[:,0])
+            vwpos = vwpos[vwstarfibers]
+            # Appending fiber diameter (for only only distinction between vw and hectochelle fibers)
+            vwfibers = np.column_stack((vwpos, vwkin[:,2], np.ones(len(vwpos))*3.2, np.ones(len(vwpos))*1.5))
+            mateodata = mateo_data(config['mateo']["data"])
+            mateofibers = np.column_stack((mateodata, np.ones(len(mateodata))*1.6, np.ones(len(mateodata))*0.7))
 
-        fibers = np.concatenate((vwfibers, mateofibers), axis = 0)
-        t = Table(np.zeros((len(fibers),11)),
-                   names=('Fiber','RA','DEC','Velocity','Diameter','Seeing','Bin','Catalog','N_Stars',
-                          'Flux', 'Estimated_Std'), dtype=('int16',float,float,float,float,float,'int16','int16','int16',float,float))
-        t.replace_column('Flux', np.zeros((len(t),maxstars)))
-        t.replace_column('Estimated_Std', np.zeros((len(t), 1, 2)))
-        t['Fiber'] = fibers[:,0]
-        t['RA'] = fibers[:,1]
-        t['DEC'] = fibers[:,2]
-        t['Velocity'] = fibers[:,3]
-        t['Diameter'] = fibers[:,4]
-        t['Seeing'] = fibers[:,5]
-        binfibers(config["vw"]["fits"], t)
-        n_starslist = []
-        stars_fluxlist = []
-        for field in config['fields']:
-            n_stars, stars_flux = getflux(config['fields'][field]['fits'], config['fields'][field]['catalog'], t)
-            n_starslist.append(n_stars)
-            stars_fluxlist.append(stars_flux)
-        n_starslist = np.array(n_starslist)
-        stars_fluxlist = np.array(stars_fluxlist)
+            fibers = np.concatenate((vwfibers, mateofibers), axis = 0)
+            t = Table(np.zeros((len(fibers),11)),
+                       names=('Fiber','RA','DEC','Velocity','Diameter','Seeing','Bin','Catalog','N_Stars',
+                              'Flux', 'Estimated_Std'), dtype=('int16',float,float,float,float,float,'int16','int16','int16',float,float))
+            t.replace_column('Flux', np.zeros((len(t),maxstars)))
+            t.replace_column('Estimated_Std', np.zeros((len(t), 1, 2)))
+            t['Fiber'] = fibers[:,0]
+            t['RA'] = fibers[:,1]
+            t['DEC'] = fibers[:,2]
+            t['Velocity'] = fibers[:,3]
+            t['Diameter'] = fibers[:,4]
+            t['Seeing'] = fibers[:,5]
+            binfibers(config["vw"]["fits"], t)
+            n_starslist = []
+            stars_fluxlist = []
+            for field in config['fields']:
+                n_stars, stars_flux = getflux(config['fields'][field]['fits'], config['fields'][field]['catalog'], t)
+                n_starslist.append(n_stars)
+                stars_fluxlist.append(stars_flux)
+            n_starslist = np.array(n_starslist)
+            stars_fluxlist = np.array(stars_fluxlist)
 
-        usedcat = np.argmax(n_starslist,axis=0)
+            usedcat = np.argmax(n_starslist,axis=0)
 
-        stars_fluxlist = np.transpose(stars_fluxlist,(1, 0, 2))
-        n_starslist = [row[usedcat[i]] for i,row in enumerate(n_starslist.T)]
-        stars_fluxlist = [row[usedcat[i]] for i,row in enumerate(stars_fluxlist)]
-        n_starslist = np.array(n_starslist)
-        t['Catalog'][t['Bin'] > 0] = usedcat+1
-        t['N_Stars'][t['Bin'] > 0] = n_starslist
-        t['Flux'][t['Bin'] > 0] = stars_fluxlist
-        t['Estimated_Std'][t['N_Stars'] > 0] = calculatestd(t)
-        t.write("Leo_table.hdf5", path = 'updated_data')
-        #t.write("Leo_table.fits", format = 'fits')
-        #t=t[60:62]
-        print t
+            stars_fluxlist = np.transpose(stars_fluxlist,(1, 0, 2))
+            n_starslist = [row[usedcat[i]] for i,row in enumerate(n_starslist.T)]
+            stars_fluxlist = [row[usedcat[i]] for i,row in enumerate(stars_fluxlist)]
+            n_starslist = np.array(n_starslist)
+            t['Catalog'][t['Bin'] > 0] = usedcat+1
+            t['N_Stars'][t['Bin'] > 0] = n_starslist
+            t['Flux'][t['Bin'] > 0] = stars_fluxlist
+            t['Estimated_Std'][t['N_Stars'] > 0] = calculatestd(t)
+            t.write("Leo_table.hdf5", path = 'updated_data')
+            #t.write("Leo_table.fits", format = 'fits')
+            #t=t[60:62]
+            print t
 
