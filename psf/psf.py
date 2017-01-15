@@ -195,10 +195,10 @@ def calculatestd(t):
         return astd
 
 if __name__ == '__main__':
-    if os.path.isfile("Leo_table.fits"):
-        t = Table.read("Leo_table.fits")
+    if os.path.isfile("Leo_table.hdf5"):
+        t = Table.read("Leo_table.hdf5")
         calculatestd(t)
-        '''
+        #'''
         astd = np.zeros((len(t), 1, 2))
         astd[t['N_Stars'] > 0] = calculatestd(t)
         ostd = np.array(t['Estimated_Std'])
@@ -206,8 +206,8 @@ if __name__ == '__main__':
         #    ostd.shape = (ostd.shape[0], 1, ostd.shape[1])
         astd = np.concatenate((ostd, astd), axis=1)
         t.replace_column('Estimated_Std', astd)
-        t.write("Leo_table.fits", format='fits',overwrite=True)
-        '''
+        t.write("Leo_table.hdf5", format='fits',overwrite=True)
+        #'''
     else:
         #Loading vw position an kinematic data:
         vwpos = VW_IFU_pos(config["vw"]["regionsfile"])
