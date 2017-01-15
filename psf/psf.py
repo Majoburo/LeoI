@@ -16,6 +16,12 @@ import toolbox
 import time
 import sys
 import h5py
+from mpi4py import MPI
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
+
 
 config = configobj.ConfigObj("config.ini")
 #I will only append 50 stars maximum.
