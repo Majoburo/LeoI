@@ -87,13 +87,9 @@ def getflux(fitsfile, catalogfile, POS):
 POS = VW_IFU_pos("../regions/LEOI_field.reg")
 #POS = POS[reg_order.astype(int)]
 
-#t = Table.read("Leo_table.hdf5")
-#print t[t['Diameter']>3]
 POS = np.array(zip(reg_order, POS[:,0], POS[:,1]))
-#print psf.VW_IFU_pos("../../LeoII/regions/LeoI_vwDec13b_field_true.reg")
-#print np.read("../regions/LEOI_field.reg")
 for field in config['fields']:
     n_stars, stars_flux = getflux(config['fields'][field]['fits'], config['fields'][field]['catalog'], POS)
-    print n_stars, stars_flux
+    print np.max(stars_flux, axis = 1)
 
 
