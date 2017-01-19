@@ -46,7 +46,7 @@ def VW_IFU_pos(regionsfile):
     regions = np.array(regions)
     return regions
 
-def getflux(fitsfile, catalogfile, POS):
+def getflux(fitsfile, catalogfile, POS,dither_pix=(0,0)):
     catalog = np.loadtxt(catalogfile)
     catalog = catalog[catalog[:,-1]==0] #only taking detections without a flag warning
     catalog = catalog[catalog[:,5] < 26]
@@ -64,6 +64,8 @@ def getflux(fitsfile, catalogfile, POS):
         #catalog[:,2:4] = w.wcs_pix2world(catpixcrd, 1)
         #np.savetxt(catalogfile, catalog)
         starpixcrd = w.wcs_world2pix(zip(RA,DEC),1)
+        starpixcrd[:,0] += dither_pix[0]
+        starpixcrd[:,1] += dither_pix[1]
         hdus = []
         hdus.append(hdu[1])
         pixsig = toolbox.degtopix(hdus, 1.5/2.35/3600.) #Divided by 2.35 cause seeing is 2.35*sigma
@@ -105,8 +107,20 @@ def getflux(fitsfile, catalogfile, POS):
 POS = VW_IFU_pos("../regions/LEOI_field.reg")
 
 POS = np.array(zip(reg_order, POS[:,0], POS[:,1]))
+#print psf.VW_IFU_pos("../../LeoII/regions/LeoI_vwDec13b_field_true.reg")
+#print np.read("../regions/LEOI_field.reg")
+dither_amt = 1
+high_count = 0
+best_dither = (0,0)
 for field in config['fields']:
     n_stars, stars_flux = getflux(config['fields'][field]['fits'], config['fields'][field]['catalog'], POS)
     np.max(stars_flux, axis = 1)
+    for dx,dy in np.array(list(np.ndindex((2*dither_amt+1,2*dither_amt+1)))) - dither_amt:
+        n_stars, stars_flux = getflux(config['fields'][field]['fits'], config['fields'][field]['catalog'], POS,(dx,dy))
+        count = np.count( np.max(stars_flux, axis = 1) > 70 )
+        if count > high_count:
+            high_count = count
+            best_dither = dx,dy
+print(high_count,best_dither)
 
 
