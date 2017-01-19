@@ -10,8 +10,26 @@ import toolbox
 from scipy.integrate import quad
 from scipy.special import iv
 
+
 maxstars = 50
 reg_order = np.loadtxt("reg_order.txt")
+ifucen = "IFUcen.txt"
+# load astrometry
+af = astrometry.astromFile("astrom.now")
+astrom_terms = af.tolist()
+RA = 
+
+def ifu(IFU_RA, IFU_DEC, astrom_terms, ifucen, fiberd=3.2):
+	s = []
+	d = loadtxt(ifucen)
+	xx = d[:,1]/3600. 
+	yy = d[:,2]/3600. 
+
+	rr,dd = astrometry.tan_inv_sci(IFU_RA, IFU_DEC, xx, yy, astrom_terms)
+	for f in zip(rr,dd):
+		s.append("circle(%.5f,%.6f,%.6f\")" % (f[0],f[1],fiberd/2.))
+	return s
+
 
 def integrand1(r,cD,fR,sig,M):
     return 2 * np.pi * r *  10 ** ((25.-M)/2.5)*iv(0, - cD * r/(sig*sig) )*np.exp( - (cD * cD + r * r)/(2 * sig * sig))
@@ -85,11 +103,10 @@ def getflux(fitsfile, catalogfile, POS):
 
 
 POS = VW_IFU_pos("../regions/LEOI_field.reg")
-#POS = POS[reg_order.astype(int)]
 
 POS = np.array(zip(reg_order, POS[:,0], POS[:,1]))
 for field in config['fields']:
     n_stars, stars_flux = getflux(config['fields'][field]['fits'], config['fields'][field]['catalog'], POS)
-    print np.max(stars_flux, axis = 1)
+    np.max(stars_flux, axis = 1)
 
 
