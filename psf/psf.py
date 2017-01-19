@@ -166,7 +166,7 @@ def calculatestd(t):
         #fluxfib = np.array(fibers['Flux'])
         #n_starsfib = np.array(fibers['N_Stars'])
         for fiber in t[t['N_Stars'] > 0]:
-        #for ii in xrange(len(fibers)):
+            #for ii in xrange(len(fibers)):
             flux = fiber['Flux'][:fiber['N_Stars']]
             #flux = fluxfib[ii][:n_starsfib[ii]]
             newgauss = np.zeros((len(flux), lenarray))

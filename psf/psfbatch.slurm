@@ -16,7 +16,7 @@
 #SBATCH -n 140                  # Total number of tasks
 #SBATCH -p gpu                 # Queue name
 #SBATCH -o HETDEX.o%j          # Name of stdout output file (%j expands to jobid)
-#SBATCH -t 2:00:00            # Run time (hh:mm:ss)
+#SBATCH -t 4:00:00            # Run time (hh:mm:ss)
 #SBATCH -A Hobby-Eberly-Telesco
 #------------------------------------------------------
 #
