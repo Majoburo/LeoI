@@ -89,14 +89,19 @@ def getflux(fitsfile, catalogfile, POS,dither_pix=(0,0)):
 POS = VW_IFU_pos("../regions/LEOI_field.reg")
 #POS = POS[reg_order.astype(int)]
 
-#t = Table.read("Leo_table.hdf5")
-#print t[t['Diameter']>3]
 POS = np.array(zip(reg_order, POS[:,0], POS[:,1]))
 #print psf.VW_IFU_pos("../../LeoII/regions/LeoI_vwDec13b_field_true.reg")
 #print np.read("../regions/LEOI_field.reg")
 dither_amt = 1
+high_count = 0
+best_dither = (0,0)
 for field in config['fields']:
-    for dx,dy in np.array(list(np.ndindex((2*dither_amt+1,2*dither_amt+1))))-1:
+    for dx,dy in np.array(list(np.ndindex((2*dither_amt+1,2*dither_amt+1)))) - dither_amt:
         n_stars, stars_flux = getflux(config['fields'][field]['fits'], config['fields'][field]['catalog'], POS,(dx,dy))
-        print n_stars, stars_flux
+        count = np.count( np.max(stars_flux, axis = 1) > 70 )
+        if count > high_count:
+            high_count = count
+            best_dither = dx,dy
+print(high_count,best_dither)
+
 
