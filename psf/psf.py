@@ -27,7 +27,7 @@ range_stop  = 40
 step        = 0.25
 steps_per_proc = np.abs((range_stop-range_start)/step)/size
 
-my_start =    rank*steps_per_proc*step + range_start
+my_start =  rank*steps_per_proc*step + range_start
 my_stop = (rank+1)*steps_per_proc*step + range_start
 
 
@@ -214,16 +214,19 @@ if __name__ == '__main__':
         curr_rank=0
         t = Table.read("Leo_table.hdf5")
         astd = np.zeros((len(t), 1, 2))
-        for guess in range(my_start,my_stop,step):
+        first_guess = True
+        for guess in np.arange(my_start,my_stop,step):
             astd[t['N_Stars'] > 0] = calculatestd(t,guess)
-            ostd = np.array(t['Estimated_Std'])
-            astd = np.concatenate((ostd, astd), axis=1)
+            if not first_guess:
+                ostd = np.array(t['Estimated_Std'])
+                astd = np.concatenate((ostd, astd), axis=1)
+                first_guess = False
             t.replace_column('Estimated_Std', astd)
         all_stds = comm.gather(t['Estimated_Std'],root=0)
         if rank == 0:
             astd = np.concatenate(all_stds,axis=1)
             t.replace_column('Estimated_Std', astd)
-            t.write("Leo_table.hdf5", path = 'updated_data', overwrite=True)
+            t.write("Leo_table.hdf5", path='updated_data', overwrite=True)
     else:
         if rank==0:
             #Loading vw position an kinematic data:
@@ -268,8 +271,8 @@ if __name__ == '__main__':
             t['Catalog'][t['Bin'] > 0] = usedcat+1
             t['N_Stars'][t['Bin'] > 0] = n_starslist
             t['Flux'][t['Bin'] > 0] = stars_fluxlist
-            t['Estimated_Std'][t['N_Stars'] > 0] = calculatestd(t)
-            t.write("Leo_table.hdf5", path = 'updated_data')
+            #t['Estimated_Std'][t['N_Stars'] > 0] = calculatestd(t)
+            t.write("Leo_table.hdf5", path='updated_data')
             #t.write("Leo_table.fits", format = 'fits')
             #t=t[60:62]
             print t
