@@ -6,6 +6,7 @@ from astropy import wcs
 from scipy.integrate import quad
 from scipy.special import iv
 from scipy.signal import gaussian
+from scipy import interpolate
 import matplotlib.pyplot as plt
 import random
 import os.path
@@ -13,6 +14,7 @@ import numpy as np
 import configobj
 import re
 import toolbox
+import srebin
 import time
 import sys
 import h5py
@@ -34,6 +36,9 @@ my_stop = (rank+1)*steps_per_proc*step + range_start
 config = configobj.ConfigObj("config.ini")
 #I will only append 50 stars maximum.
 maxstars = 50
+
+template, trange =  toolbox.getdata(config["vw"]["template"])
+
 #Flux integration functions
 def integrand1(r,cD,fR,sig,M):
 
@@ -168,15 +173,21 @@ def calculatestd(t,guess_speed):
         start = time.time()
         fiberIMAGEstd = []
         iterations = int(sys.argv[2])
-        enhance = 10
+        enhance = 1
+        interpolate.InterpolatedUnivariateSpline(trange, template)
+        print guess_speed
         guess_speed = float(guess_speed)*enhance
         #guess_speed = float(sys.argv[1])*enhance
-        lenarray = 1000*enhance
-        width = 27.*enhance
+        #lenarray = 1000*enhance
+        trange = np.linspace(trange[0],trange[-1],lenarray)
+        #width = 27.*enhance
         #Doing normalized cross correlation (just as like with the data)
-        tmpmean = np.mean(gaussian(lenarray, width))
-        tmpstd = np.std(gaussian(lenarray, width))
-        tmpgauss = (gaussian(lenarray, width) - tmpmean)/tmpstd
+        tmpmean = np.mean(template)
+        tmpstd = np.std(template)
+        tmp = (template - tmpmean)/tmpstd
+        #tmpmean = np.mean(gaussian(lenarray, width))
+        #tmpstd = np.std(gaussian(lenarray, width))
+        #tmpgauss = (gaussian(lenarray, width) - tmpmean)/tmpstd
         #fibers = t[t['N_Stars'] > 0]
         #fluxfib = np.array(fibers['Flux'])
         #n_starsfib = np.array(fibers['N_Stars'])
@@ -184,18 +195,28 @@ def calculatestd(t,guess_speed):
         #for ii in xrange(len(fibers)):
             flux = fiber['Flux'][:fiber['N_Stars']]
             #flux = fluxfib[ii][:n_starsfib[ii]]
-            newgauss = np.zeros((len(flux), lenarray))
+            #newgauss = np.zeros((len(flux), lenarray))
+            newtmp = np.zeros((len(flux), len(tmp)))
             maxgauss = []
             for f in xrange(iterations):
                 for i,w in enumerate(flux/np.sum(flux)):
                     shift = int(random.gauss(0, guess_speed))
-                    newgauss[i] = np.take(w*gaussian(lenarray, width), np.arange(shift, lenarray + shift),mode = 'wrap')
-                    #plt.plot(newgauss[i])
-                sumgauss = np.sum(newgauss, axis = 0)
-                sumgauss = (sumgauss - np.mean(sumgauss))/np.std(sumgauss)
-                corr = np.correlate(sumgauss, tmpgauss, mode = 'same')[lenarray/4:lenarray*3/4]
-                #plt.plot(sumgauss[lenarray/4:lenarray*3/4])
-                #plt.plot(tmpgauss[lenarray/4:lenarray*3/4])
+                    #print shift
+                    #print trange
+                    #print tmp
+                    #newgauss[i] = np.take(w*gaussian(lenarray, width), np.arange(shift, lenarray + shift),mode = 'wrap')
+                    #newtmp[i] = np.take(w*tmp, np.arange(shift, len(tmp) + shift),mode = 'wrap')
+                    newtmp[i] = srebin.loglogSpl(trange, tmp, zshift = shift)[1]
+                    #newtmp[i] = np.take(w*tmp, np.arange(shift, len(tmp) + shift),mode = 'wrap')
+                    #plt.plot(newtmp[i])
+                    #plt.show()
+                #sumgauss = np.sum(newgauss, axis = 0)
+                sumtmp = np.sum(newtmp, axis = 0)
+                sumtmp = (sumtmp - np.mean(sumtmp))/np.std(sumtmp)
+                corr = np.correlate(sumtmp, tmp, mode = 'same')[len(tmp)/4:len(tmp)*3/4]
+                #plt.plot(sumtmp[len(tmp)/4:len(tmp)*3/4])
+                #plt.plot(tmp[len(tmp)/4:len(tmp)*3/4])
+                #plt.plot(corr)
                 #plt.show()
                 maxgauss.append(np.argmax(corr))
             fiberIMAGEstd.append(np.std(maxgauss))
@@ -204,8 +225,8 @@ def calculatestd(t,guess_speed):
         end = time.time()
         print "This calculation took (in seconds):"
         print(end - start)
-        if len(sys.argv) < 4:
-            np.savetxt("std_%.2f_%d.txt"%(float(sys.argv[1]),iterations),astd)
+        #if len(sys.argv) < 4:
+        #    np.savetxt("std_%.2f_%d.txt"%(float(sys.argv[1]),iterations),astd)
         astd.shape = (len(fiberIMAGEstd), 1, 2)
         return astd
 
@@ -271,7 +292,7 @@ if __name__ == '__main__':
             t['Catalog'][t['Bin'] > 0] = usedcat+1
             t['N_Stars'][t['Bin'] > 0] = n_starslist
             t['Flux'][t['Bin'] > 0] = stars_fluxlist
-            #t['Estimated_Std'][t['N_Stars'] > 0] = calculatestd(t)
+            t['Estimated_Std'][t['N_Stars'] > 0] = calculatestd(t, range_start)
             t.write("Leo_table.hdf5", path='updated_data')
             #t.write("Leo_table.fits", format = 'fits')
             #t=t[60:62]
