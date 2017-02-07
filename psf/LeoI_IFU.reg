@@ -1,10 +1,6 @@
 # Region file format: DS9 version 4.1
 global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
 fk5
-line(152.05743,12.431951,152.13316,12.432199) # line=0 0
-line(152.13316,12.432199,152.13291,12.50638) # line=0 0
-line(152.13291,12.50638,152.05717,12.506132) # line=0 0
-line(152.05717,12.506132,152.05743,12.431951) # line=0 0
 circle(152.09135,12.324306,1.6") # color=yellow width=4
 # text(152.09135,12.324306) text={20}
 circle(152.09286,12.32428,1.6") # color=red
