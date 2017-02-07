@@ -20,24 +20,24 @@ import sys
 import h5py
 from mpi4py import MPI
 
+config = configobj.ConfigObj("config.ini")
+
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
 
-range_start = 5
-range_stop  = 40
-step        = 0.25
+range_start = float(config["mc"]["min_speed"])
+range_stop  = float(config["mc"]["max_speed"])
+step        = float(config["mc"]["step_speed"])
 steps_per_proc = np.abs((range_stop-range_start)/step)/size
 
 my_start =  rank*steps_per_proc*step + range_start
 my_stop = (rank+1)*steps_per_proc*step + range_start
 
 
-config = configobj.ConfigObj("config.ini")
-#I will only append 50 stars maximum.
-maxstars = 50
+maxstars = int(config["mc"]["max_stars"])
 
-enhance = 10
+enhance = int(config["mc"]["enhance"])
 lenarray = 1000*enhance
 
 template, trange =  toolbox.getdata(config["vw"]["template"])
@@ -179,7 +179,7 @@ def calculatestd(t,guess_speed):
 
         start = time.time()
         fiberIMAGEstd = []
-        iterations = int(sys.argv[2])
+        iterations = int(sys.argv[1])
         #enhance = 10
         guess_speed = float(guess_speed)*enhance
         #guess_speed = float(sys.argv[1])*enhance
@@ -213,8 +213,8 @@ def calculatestd(t,guess_speed):
                     newtmp[i] = np.take(w*tmp, np.arange(shift, len(tmp) + shift),mode = 'wrap')
                     #newtmp[i] = srebin.loglogSpl(trange, tmp, zshift = shift)[1]
                     #newtmp[i] = np.take(w*tmp, np.arange(shift, len(tmp) + shift),mode = 'wrap')
-                    plt.plot(newtmp[i])
-                    plt.show()
+                    #plt.plot(newtmp[i])
+                    #plt.show()
                 #sumgauss = np.sum(newgauss, axis = 0)
                 sumtmp = np.sum(newtmp, axis = 0)
                 sumtmp = (sumtmp - np.mean(sumtmp))/np.std(sumtmp)
