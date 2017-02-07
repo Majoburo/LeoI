@@ -37,7 +37,14 @@ config = configobj.ConfigObj("config.ini")
 #I will only append 50 stars maximum.
 maxstars = 50
 
+enhance = 10
+lenarray = 1000*enhance
+
 template, trange =  toolbox.getdata(config["vw"]["template"])
+newrange = np.linspace(trange[0], trange[-1], num = lenarray)
+newdata = interpolate.InterpolatedUnivariateSpline(trange, template)
+template = newdata(newrange)
+trange = newrange
 
 #Flux integration functions
 def integrand1(r,cD,fR,sig,M):
@@ -173,13 +180,11 @@ def calculatestd(t,guess_speed):
         start = time.time()
         fiberIMAGEstd = []
         iterations = int(sys.argv[2])
-        enhance = 1
-        interpolate.InterpolatedUnivariateSpline(trange, template)
-        print guess_speed
+        #enhance = 10
         guess_speed = float(guess_speed)*enhance
         #guess_speed = float(sys.argv[1])*enhance
         #lenarray = 1000*enhance
-        trange = np.linspace(trange[0],trange[-1],lenarray)
+        #trange = np.linspace(trange[0],trange[-1],lenarray)
         #width = 27.*enhance
         #Doing normalized cross correlation (just as like with the data)
         tmpmean = np.mean(template)
@@ -205,11 +210,11 @@ def calculatestd(t,guess_speed):
                     #print trange
                     #print tmp
                     #newgauss[i] = np.take(w*gaussian(lenarray, width), np.arange(shift, lenarray + shift),mode = 'wrap')
+                    newtmp[i] = np.take(w*tmp, np.arange(shift, len(tmp) + shift),mode = 'wrap')
+                    #newtmp[i] = srebin.loglogSpl(trange, tmp, zshift = shift)[1]
                     #newtmp[i] = np.take(w*tmp, np.arange(shift, len(tmp) + shift),mode = 'wrap')
-                    newtmp[i] = srebin.loglogSpl(trange, tmp, zshift = shift)[1]
-                    #newtmp[i] = np.take(w*tmp, np.arange(shift, len(tmp) + shift),mode = 'wrap')
-                    #plt.plot(newtmp[i])
-                    #plt.show()
+                    plt.plot(newtmp[i])
+                    plt.show()
                 #sumgauss = np.sum(newgauss, axis = 0)
                 sumtmp = np.sum(newtmp, axis = 0)
                 sumtmp = (sumtmp - np.mean(sumtmp))/np.std(sumtmp)
