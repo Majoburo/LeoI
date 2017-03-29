@@ -100,8 +100,6 @@ def binfibers(fitsfile, table):
     furtherxy = (furtherxy - centerpix)[0]
     b = np.sqrt((furtherxy[0]/ab)**2 + (furtherxy[1])**2)  #Taking an extra bins outside the ifu
     fiberbin = np.zeros(len(fibers))
-    #t = Table.read("std_10000_cat123/Leo_table.fits")
-    #print np.sum(t['N_Stars']>0)/4.
     jj = 0
     for i in xrange(bins):
         x, y = (centerpix - fiberpixcrd)[:,1], (centerpix - fiberpixcrd)[:,0]
@@ -112,7 +110,6 @@ def binfibers(fitsfile, table):
             j = j + 1
             maskfibers = (ell_b <= ((j+jj)/100.)*b/3.)*(ell_b > (jj/100.)*b/3.)
 
-        #print ((j+jj)/100.)*b/3.,(jj/100.)*b/3.
         jj = j+jj
         distance = ell_b[maskfibers]
         fiberbin = fiberbin + maskfibers * (i+1)
@@ -120,14 +117,13 @@ def binfibers(fitsfile, table):
         with fits.open(fitsfile) as hdu:
             print "Average distance in arcsec in bin %d: %f"%(i, toolbox.pixtodeg(hdu, distance)*3600)
     table['Bin'] = fiberbin
-    #print table[(table['Diameter']==3.2)*(table['Bin']==4)]
     return
 
 def getflux(fitsfile, catalogfile, table):
     catalog = np.loadtxt(catalogfile)
     catalog = catalog[catalog[:,-1]==0] #only taking detections without a flag warning
     catalog = catalog[catalog[:,5] < 26]
-    fiber = table[table['Bin'] > 0] #== float(sys.argv[3])]
+    fiber = table[table['Bin'] > 0]
     RA = fiber['RA']
     DEC = fiber['DEC']
     #The median seeing for fibers in Hectochelle: 0.7.
@@ -136,10 +132,6 @@ def getflux(fitsfile, catalogfile, table):
     with fits.open(fitsfile) as hdu:
         w = wcs.WCS(hdu[1].header)
         catpixcrd = w.wcs_world2pix(np.array(catalog[:,2:4], dtype='float64'),1)
-        #catpixcrd[:,0] = catpixcrd[:,0] - 2.1118999999998778
-        #catpixcrd[:,1] = catpixcrd[:,1] - 48.02390000000014
-        #catalog[:,2:4] = w.wcs_pix2world(catpixcrd, 1)
-        #np.savetxt(catalogfile, catalog)
         starpixcrd = w.wcs_world2pix(zip(RA,DEC),1)
         hdus = []
         hdus.append(hdu[1])
@@ -153,12 +145,8 @@ def getflux(fitsfile, catalogfile, table):
 
     stars_flux = np.zeros((len(starpos), maxstars))
     n_stars = np.zeros(len(starpos))
-    #f=open("coord_deep_bin%s.txt"%sys.argv[3],'ab')
     for i, star in enumerate(starpos):
         mask_nb_fib = (star[1] - leophot[mask][:,1])**2 + (star[2] - leophot[mask][:,2])**2 < star[4]**2
-        #f.write("%f /n"%leophot[:,0][mask][mask_nb_fib])
-        #np.savetxt(f, leophot[:,0][mask][mask_nb_fib])
-        #np.savetxt(f, np.arange(len(mask_nb_fib))[mask_nb_fib])
         vec_dist = (star[1:3] - leophot[:,1:3][mask][mask_nb_fib])
         cD = np.sqrt(vec_dist[:,0]**2 + vec_dist[:,1]**2)
         M = leophot[mask][mask_nb_fib][:,0]
@@ -171,8 +159,6 @@ def getflux(fitsfile, catalogfile, table):
             n_stars[i] = j+1
         if n_stars[i] > 0:
             stars_flux[i] = flux/np.sum(flux)*100.
-    #f.close()
-    #exit()
     return n_stars, stars_flux
 
 def calculatestd(t,guess_speed):
@@ -180,42 +166,21 @@ def calculatestd(t,guess_speed):
         start = time.time()
         fiberIMAGEstd = []
         iterations = int(sys.argv[1])
-        #enhance = 10
         guess_speed = float(guess_speed)*enhance
-        #guess_speed = float(sys.argv[1])*enhance
-        #lenarray = 1000*enhance
-        #trange = np.linspace(trange[0],trange[-1],lenarray)
-        #width = 27.*enhance
-        #Doing normalized cross correlation (just as like with the data)
         tmpmean = np.mean(template)
         tmpstd = np.std(template)
         tmp = (template - tmpmean)/tmpstd
-        #tmpmean = np.mean(gaussian(lenarray, width))
-        #tmpstd = np.std(gaussian(lenarray, width))
-        #tmpgauss = (gaussian(lenarray, width) - tmpmean)/tmpstd
-        #fibers = t[t['N_Stars'] > 0]
-        #fluxfib = np.array(fibers['Flux'])
-        #n_starsfib = np.array(fibers['N_Stars'])
         for fiber in t[t['N_Stars'] > 0]:
-        #for ii in xrange(len(fibers)):
             flux = fiber['Flux'][:fiber['N_Stars']]
-            #flux = fluxfib[ii][:n_starsfib[ii]]
-            #newgauss = np.zeros((len(flux), lenarray))
             newtmp = np.zeros((len(flux), len(tmp)))
             maxgauss = []
             for f in xrange(iterations):
                 for i,w in enumerate(flux/np.sum(flux)):
                     shift = int(random.gauss(0, guess_speed))
-                    #print shift
-                    #print trange
-                    #print tmp
-                    #newgauss[i] = np.take(w*gaussian(lenarray, width), np.arange(shift, lenarray + shift),mode = 'wrap')
                     newtmp[i] = np.take(w*tmp, np.arange(shift, len(tmp) + shift),mode = 'wrap')
                     #newtmp[i] = srebin.loglogSpl(trange, tmp, zshift = shift)[1]
-                    #newtmp[i] = np.take(w*tmp, np.arange(shift, len(tmp) + shift),mode = 'wrap')
                     #plt.plot(newtmp[i])
                     #plt.show()
-                #sumgauss = np.sum(newgauss, axis = 0)
                 sumtmp = np.sum(newtmp, axis = 0)
                 sumtmp = (sumtmp - np.mean(sumtmp))/np.std(sumtmp)
                 corr = np.correlate(sumtmp, tmp, mode = 'same')[len(tmp)/4:len(tmp)*3/4]
@@ -230,8 +195,6 @@ def calculatestd(t,guess_speed):
         end = time.time()
         print "This calculation took (in seconds):"
         print(end - start)
-        #if len(sys.argv) < 4:
-        #    np.savetxt("std_%.2f_%d.txt"%(float(sys.argv[1]),iterations),astd)
         astd.shape = (len(fiberIMAGEstd), 1, 2)
         return astd
 
@@ -299,7 +262,5 @@ if __name__ == '__main__':
             t['Flux'][t['Bin'] > 0] = stars_fluxlist
             t['Estimated_Std'][t['N_Stars'] > 0] = calculatestd(t, range_start)
             t.write("Leo_table.hdf5", path='updated_data')
-            #t.write("Leo_table.fits", format = 'fits')
-            #t=t[60:62]
             print t
 
